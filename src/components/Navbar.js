@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export const Navbar = ({ onItemPress }) => {
+export const Navbar = ({ showFav, onItemPress }) => {
   const [isActive, setIsActive] = useState(false);
 
   const toggleNav = () => {
@@ -30,7 +30,7 @@ export const Navbar = ({ onItemPress }) => {
             className="navbar-item has-text-info has-text-weight-bold"
             onClick={onItemPress}
           >
-            Favourites
+            {showFav ? "Home" : "Favourites"}
           </a>
         </div>
       </div>

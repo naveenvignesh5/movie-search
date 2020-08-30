@@ -30,6 +30,7 @@ export const Fav = () => {
       <div className="container">
         <div className="columns">
           <div className="column">
+            <p className="title is-3 has-text-info">Favourites</p>
             {favs.map((obj) => (
               <>
                 <a

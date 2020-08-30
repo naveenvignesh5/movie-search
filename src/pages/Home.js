@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import useSWR from "swr";
 
 // components
@@ -8,8 +8,6 @@ import { SearchBar, MovieCard } from "../components";
 import { API_URL } from "../config";
 
 const Home = () => {
-  const [showFav, setShowFav] = useState(false);
-
   const [query, setQuery] = useState({
     type: "",
     title: "",
@@ -18,10 +16,6 @@ const Home = () => {
   const url = `${API_URL}&type=${query.type}&t=${query.title}`;
 
   const { data } = useSWR(url);
-
-  const toggleFavourite = () => {
-    setShowFav((f) => !f);
-  };
 
   return (
     <section className="section">

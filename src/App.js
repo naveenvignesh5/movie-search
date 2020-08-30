@@ -18,7 +18,7 @@ function App() {
 
   return (
     <SWRConfig value={{ fetcher }}>
-      <Navbar onItemPress={toggleFav} />
+      <Navbar showFav={showFav} onItemPress={toggleFav} />
       {showFav ? <Fav /> : <Home />}
     </SWRConfig>
   );
