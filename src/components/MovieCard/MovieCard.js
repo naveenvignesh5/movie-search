@@ -7,7 +7,12 @@ import { getItem, setItem } from "../../libs/storage";
 import "./MovieCard.css";
 
 export const MovieCard = ({ movie }) => {
-  if (!movie) return <p>Loading...</p>;
+  if (!movie)
+    return (
+      <p className="has-text-centered has-text-weight-bold has-text-black">
+        Loading...
+      </p>
+    );
 
   if (movie.Error) {
     return (

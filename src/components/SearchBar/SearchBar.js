@@ -5,7 +5,7 @@ import { Dropdown } from "../Dropdown";
 
 import "./SearchBar.css";
 
-export const SearchBar = ({ onSearch }) => {
+export const SearchBar = ({ onSearch, ...inputProps }) => {
   const searchInput = useRef();
   const typeInput = useRef();
 
@@ -23,7 +23,7 @@ export const SearchBar = ({ onSearch }) => {
           ref={searchInput}
           className="input"
           type="text"
-          placeholder="Find a movie"
+          {...inputProps}
         />
       </div>
       <div className="control">

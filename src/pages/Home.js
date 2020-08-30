@@ -5,12 +5,12 @@ import useSWR from "swr";
 import { SearchBar, MovieCard } from "../components";
 
 // api
-import { API_URL } from "../config";
+import { API_URL, DEFAULT_MOVIE } from "../config";
 
 const Home = () => {
   const [query, setQuery] = useState({
     type: "",
-    title: "",
+    title: DEFAULT_MOVIE,
   });
 
   const url = `${API_URL}&type=${query.type}&t=${query.title}`;
@@ -20,7 +20,11 @@ const Home = () => {
   return (
     <section className="section">
       <div className="container">
-        <SearchBar onSearch={(q) => setQuery(q)} />
+        <SearchBar
+          placeholder="Type a movie"
+          defaultValue={DEFAULT_MOVIE}
+          onSearch={(q) => setQuery(q)}
+        />
         <br />
         <div className="columns">
           <div className="column is-6">
