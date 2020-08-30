@@ -1,75 +1,12 @@
 import React, { useState } from "react";
 
 // libs
-import { getItem } from "../../libs/storage";
+import { getItem, setItem } from "../../libs/storage";
 
+// movies
 import "./MovieCard.css";
 
-const movie = {
-  Title: "Titanic",
-  Year: "1997",
-  Rated: "PG-13",
-  Released: "19 Dec 1997",
-  Runtime: "194 min",
-  Genre: "Drama, Romance",
-  Director: "James Cameron",
-  Writer: "James Cameron",
-  Actors: "Leonardo DiCaprio, Kate Winslet, Billy Zane, Kathy Bates",
-  Plot:
-    "A seventeen-year-old aristocrat falls in love with a kind but poor artist aboard the luxurious, ill-fated R.M.S. Titanic.",
-  Language: "English, Swedish, Italian, French",
-  Country: "USA, Mexico, Australia, Canada",
-  Awards: "Won 11 Oscars. Another 113 wins & 83 nominations.",
-  Poster:
-    "https://m.media-amazon.com/images/M/MV5BMDdmZGU3NDQtY2E5My00ZTliLWIzOTUtMTY4ZGI1YjdiNjk3XkEyXkFqcGdeQXVyNTA4NzY1MzY@._V1_SX300.jpg",
-  Ratings: [
-    {
-      Source: "Internet Movie Database",
-      Value: "7.8/10",
-    },
-    {
-      Source: "Rotten Tomatoes",
-      Value: "89%",
-    },
-    {
-      Source: "Metacritic",
-      Value: "75/100",
-    },
-  ],
-  Metascore: "75",
-  imdbRating: "7.8",
-  imdbVotes: "1,022,060",
-  imdbID: "tt0120338",
-  Type: "movie",
-  DVD: "10 Sep 2012",
-  BoxOffice: "N/A",
-  Production: "Paramount Pictures",
-  Website: "N/A",
-  Response: "True",
-};
-
-const isFavourite = (id) => {
-  const favs = getItem("Fav") || [];
-  return favs.includes(id);
-};
-
-export const MovieCard = () => {
-  const [fav, setFav] = useState(movie && isFavourite(movie.imdbID));
-
-  const toggleFav = () => {
-    setFav((fav) => {
-      let _fav = !fav;
-
-      // if (_fav) {
-
-      // } else {
-
-      // }
-
-      return !_fav;
-    });
-  };
-
+export const MovieCard = ({ movie }) => {
   if (!movie) return <p>Loading...</p>;
 
   if (movie.Error) {
@@ -83,6 +20,52 @@ export const MovieCard = () => {
       </div>
     );
   }
+
+  return <MovieCardContent movie={movie} />;
+};
+
+export const MovieCardContent = ({ movie }) => {
+  const isFavourite = (id) => {
+    const favs = getItem("Fav") || [];
+
+    const favIds = favs.map((o) => o.id);
+
+    return favIds.includes(id);
+  };
+
+  const [fav, setFav] = useState(movie && isFavourite(movie.imdbID));
+
+  const addFav = () => {
+    const favs = getItem("Fav") || [];
+
+    favs.push({ id: movie.imdbID, title: movie.Title });
+
+    setItem("Fav", favs);
+  };
+
+  const removeFav = () => {
+    let favs = getItem("Fav") || [];
+
+    if (favs.length === 0) return;
+
+    favs = favs.filter((o) => o.id !== movie.imdbID);
+
+    setItem("Fav", favs);
+  };
+
+  const toggleFav = () => {
+    setFav((fav) => {
+      let _fav = !fav;
+
+      if (_fav) {
+        addFav();
+      } else {
+        removeFav();
+      }
+
+      return _fav;
+    });
+  };
 
   return (
     <div className="card">

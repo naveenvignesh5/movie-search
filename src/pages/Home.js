@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import useSWR from "swr";
 
 // components
-import { Navbar, SearchBar, MovieCard } from "../components";
+import { SearchBar, MovieCard } from "../components";
 
 // api
 import { API_URL } from "../config";
@@ -15,33 +15,26 @@ const Home = () => {
     title: "",
   });
 
-  const { data, error } = useSWR(
-    `${API_URL}&type=${query.type}&t=${query.title}`
-  );
+  const url = `${API_URL}&type=${query.type}&t=${query.title}`;
+
+  const { data } = useSWR(url);
 
   const toggleFavourite = () => {
     setShowFav((f) => !f);
   };
 
-  useEffect(() => {
-    console.log(JSON.stringify(data));
-  }, [data]);
-
   return (
-    <>
-      <Navbar onItemPress={toggleFavourite} showFav={showFav} />
-      <section className="section">
-        <div className="container">
-          <SearchBar onSearch={(q) => setQuery(q)} />
-          <br />
-          <div className="columns">
-            <div className="column is-6">
-              <MovieCard movie={data} />
-            </div>
+    <section className="section">
+      <div className="container">
+        <SearchBar onSearch={(q) => setQuery(q)} />
+        <br />
+        <div className="columns">
+          <div className="column is-6">
+            <MovieCard movie={data} />
           </div>
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 };
 

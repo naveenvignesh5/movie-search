@@ -1,11 +1,17 @@
-import React, { useState, forwardRef } from "react";
+import React, { useState, forwardRef, useEffect, useRef } from "react";
+
+// custom hooks
+import { useClickOutside } from "../../hooks";
 
 import "./Dropdown.css";
-import { useEffect } from "react";
 
 const BasicDropdown = ({ label, innerRef, items = [] }) => {
   const [active, setActive] = useState(false);
   const [currentItem, setItem] = useState("");
+
+  const wrapperRef = useRef();
+
+  useClickOutside(wrapperRef, () => setActive(false));
 
   const toggleDropdown = () => {
     setActive((active) => !active);
@@ -32,7 +38,7 @@ const BasicDropdown = ({ label, innerRef, items = [] }) => {
   }, [innerRef]);
 
   return (
-    <div className={`dropdown ${active ? "is-active" : ""}`}>
+    <div ref={wrapperRef} className={`dropdown ${active ? "is-active" : ""}`}>
       <div className="dropdown-trigger">
         <button
           className="button has-text-primary"
