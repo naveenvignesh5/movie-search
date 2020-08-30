@@ -1,9 +1,15 @@
-import React from 'react';
-import { Home } from './pages';
+import React from "react";
+import { SWRConfig } from "swr";
+
+import { Home } from "./pages";
+
+const fetcher = (...args) => fetch(...args).then((r) => r.json());
 
 function App() {
   return (
-    <Home />
+    <SWRConfig value={{ fetcher }}>
+      <Home />
+    </SWRConfig>
   );
 }
 
